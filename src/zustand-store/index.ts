@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { create } from 'zustand';
-import { api } from '../lib/axios';
 
 interface Course {
   id: number;
@@ -35,10 +35,12 @@ export const useStore = create<PlayerState>((set, get) => {
     load: async () => {
       set({ isLoading: true });
 
-      const response = await api.get('/courses/1');
+      const response = await axios
+        .get('https://api.npoint.io/89582992c665a6675442/courses')
+        .then((response) => response.data[0]);
 
       set({
-        course: response.data,
+        course: response,
         isLoading: false,
       });
     },
